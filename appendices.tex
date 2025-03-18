@@ -1,0 +1,178 @@
+\section{Appendix A: Cloud Functions}
+\label{app:cloud-functions}
+
+This appendix provides information about the cloud functions used in the data processing pipeline.
+
+\begin{lstlisting}
+def weather_processing_function(event, context):
+    """
+    Cloud function to process weather data and compute metrics.
+    
+    Parameters:
+    -----------
+    event: dict
+        The event payload
+    context: google.cloud.functions.Context
+        The Cloud Functions event metadata
+    """
+    # Retrieve weather data from external API
+    weather_data = fetch_weather_data(API_KEY, location)
+    
+    # Compute reference evapotranspiration
+    eto = compute_reference_evapotranspiration(
+        weather_data['temperature'], 
+        weather_data['humidity'], 
+        weather_data['solar_radiation'], 
+        weather_data['wind_speed'])
+    
+    # Store results in database
+    store_results_in_database(eto, weather_data)
+    
+    return None
+\end{lstlisting}
+
+\begin{figure}[h!]
+\centering
+% \includegraphics[width=0.8\textwidth]{figures/cloud_functions_diagram.png}
+\caption{Diagram showing interactions between cloud functions in the data processing pipeline.}
+\label{fig:cloud-functions-diagram}
+\end{figure}
+
+\section{Appendix B: Virtual Machine MQTT Client}
+\label{app:vm-mqtt}
+
+This appendix contains sample code used in the virtual machine to maintain an active MQTT client connection.
+
+\begin{lstlisting}
+import paho.mqtt.client as mqtt
+import json
+from google.cloud import bigquery
+
+# Configuration
+MQTT_BROKER = "mqtt.example.com"
+MQTT_PORT = 1883
+MQTT_TOPIC = "sensors/data/#"
+
+# Callbacks
+def on_connect(client, userdata, flags, rc):
+    print(f"Connected with result code {rc}")
+    client.subscribe(MQTT_TOPIC)
+
+def on_message(client, userdata, msg):
+    try:
+        payload = msg.payload.decode("utf-8")
+        data = json.loads(payload)
+        processed_data = process_data(data)
+        insert_into_bigquery(processed_data)
+    except Exception as e:
+        print(f"Error processing message: {e}")
+
+# Set up client
+client = mqtt.Client()
+client.on_connect = on_connect
+client.on_message = on_message
+client.connect(MQTT_BROKER, MQTT_PORT, 60)
+
+# Start loop
+try:
+    client.loop_forever()
+except KeyboardInterrupt:
+    print("Stopped by user")
+finally:
+    client.disconnect()
+\end{lstlisting}
+
+\section{Appendix C: Fuzzy Logic Rules}
+\label{app:fuzzy-rules}
+
+This appendix details the fuzzy logic rules used in the decision-making process.
+
+\begin{table}[ht]
+  \centering
+  \caption{Fuzzy Logic Rule Set}
+  \label{tab:fuzzy-rules}
+  \begin{tabular}{|l|l|l|l|l|p{5cm}|}
+  \hline
+  \textbf{Rule} & \textbf{Input 1} & \textbf{Input 2} & \textbf{Input 3} & \textbf{Output} & \textbf{Description} \\ \hline
+  Rule 1 & CWSI is very\_low & SWSI is very\_low & - & Irrigation is none & When both indices indicate no stress \\ \hline
+  Rule 2 & CWSI is high & SWSI is medium & - & Irrigation is medium & Moderate response to stress \\ \hline
+  Rule 3 & CWSI is very\_high & SWSI is high & - & Irrigation is high & Strong response to severe stress \\ \hline
+  Rule 4 & CWSI is medium & SWSI is medium & ETo is medium & Irrigation is medium & Balanced response \\ \hline
+  Rule 5 & CWSI is low & SWSI is high & ETo is high & Irrigation is medium & Prioritize soil conditions \\ \hline
+  \end{tabular}
+\end{table}
+
+\begin{lstlisting}
+def apply_fuzzy_rule(cwsi, swsi, eto):
+    """
+    Apply fuzzy logic rule to determine irrigation amount
+    
+    Parameters:
+    -----------
+    cwsi: float
+        Crop Water Stress Index value
+    swsi: float
+        Soil Water Stress Index value
+    eto: float
+        Reference Evapotranspiration value
+        
+    Returns:
+    --------
+    float
+        Recommended irrigation amount
+    """
+    # Example rule implementation
+    if cwsi < 0.2 and swsi < 0.2:
+        return 0.0  # No irrigation
+    elif cwsi > 0.7 and swsi > 0.5:
+        return 25.4  # Full irrigation
+    else:
+        # Apply fuzzy logic to determine amount
+        strength = min(
+            membership_medium(cwsi),
+            membership_medium(swsi),
+            membership_medium(eto)
+        )
+        return defuzzify(strength)
+\end{lstlisting}
+
+\section{Appendix D: Statistical Analysis}
+\label{app:statistical}
+
+This appendix contains example statistical analysis code used to process experimental data.
+
+\begin{lstlisting}
+import pandas as pd
+import numpy as np
+from scipy import stats
+
+def analyze_treatment_effects(data_file):
+    """
+    Analyze treatment effects on water use efficiency
+    
+    Parameters:
+    -----------
+    data_file: str
+        Path to CSV file with experimental data
+    """
+    # Load data
+    df = pd.read_csv(data_file)
+    
+    # Group by treatment
+    grouped = df.groupby('Treatment')
+    
+    # Calculate mean and standard deviation
+    summary = grouped.agg({
+        'WaterUse': ['mean', 'std'],
+        'Yield': ['mean', 'std'],
+        'WUE': ['mean', 'std']
+    })
+    
+    # Perform ANOVA
+    treatments = df['Treatment'].unique()
+    anova_data = [df[df['Treatment'] == t]['WUE'] for t in treatments]
+    f_stat, p_value = stats.f_oneway(*anova_data)
+    
+    print(f"ANOVA results: F={f_stat:.2f}, p={p_value:.4f}")
+    return summary
+\end{lstlisting}

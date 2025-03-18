@@ -1,0 +1,385 @@
+\documentclass[12pt]{article}
+
+% Encoding and language
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+% Page layout
+\usepackage[margin=1in]{geometry}
+
+% Math and symbols
+\usepackage{amsmath,amssymb,amsfonts}
+
+% For quotes & punctuation with biblatex + babel
+\usepackage{csquotes}
+
+\usepackage[
+  backend=biber,
+  style=numeric,
+  sorting=none,
+  giveninits=true,
+  doi=true,
+  url=false,
+  isbn=false,
+  eprint=false,
+  maxbibnames=10,    % Elsevier typically uses 10 authors before et al.
+  minbibnames=10,    % Ensures at least 10 authors appear before et al.
+  maxcitenames=2,
+  uniquename=false
+]{biblatex}
+\addbibresource{references.bib}
+
+% Author initials first (Z. Gu)
+\DeclareNameAlias{author}{given-family}
+
+% No "In:" prefix
+\renewbibmacro{in:}{}
+
+% Title without quotation marks or italics
+\DeclareFieldFormat[article,inproceedings,incollection]{title}{#1}
+
+% Pages format without prefix
+\DeclareFieldFormat[article]{pages}{#1}
+
+% DOI without prefix
+\DeclareFieldFormat{doi}{#1}
+
+% Hyperlinks
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks  = true,
+  linkcolor   = blue,
+  citecolor   = blue,
+  urlcolor    = magenta
+}
+\usepackage{url}
+
+% Graphics, tables, and floats
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xltabular}
+\usepackage{float}
+
+% For referencing figures/tables with bold labels
+\usepackage[labelfont=bf]{caption}
+
+% Optional line spacing
+\usepackage{setspace}
+%\onehalfspacing
+
+% -------------------------------
+% Code Listings Configuration
+% -------------------------------
+\usepackage{listings}
+\usepackage{xcolor} % for custom colors
+
+% Define a custom style for Python code
+\lstdefinestyle{myCustomPython}{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{green!50!black}\itshape,
+  stringstyle=\color{red},
+  backgroundcolor=\color{gray!10},
+  frame=single,
+  rulecolor=\color{gray},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  breaklines=true,
+  breakatwhitespace=true,
+  showstringspaces=false,
+  captionpos=b,
+  tabsize=4,
+  columns=fullflexible
+}
+
+% Set the default style to your custom style
+\lstset{style=myCustomPython}
+% -------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%              BEGIN DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\title{Your Paper Title Here}
+\author{%
+  Author Name\textsuperscript{1,2},
+  Second Author\textsuperscript{1,2}\thanks{\textit{Corresponding author:} \texttt{email@domain.com}}~,
+  et al.
+}
+\date{\vspace{-1em}} % optional
+\maketitle
+
+\noindent
+\textsuperscript{1}Department Name, University Name, City, State, Country
+
+\noindent
+\textsuperscript{2}Center Name, University Name, City, State, Country
+
+\vspace{1em}
+\begin{abstract}
+Your abstract text goes here.
+\end{abstract}
+
+\section{Introduction}
+
+\noindent
+Introduction text goes here. Add citations as needed \cite{reference1}.
+
+\section{Methods}
+
+\subsection{Study Site and Experimental Design}
+\label{sec:study-site}
+
+Description of study site and experimental design goes here.
+
+\begin{itemize}
+    \item Treatment 1: Brief description
+    \item Treatment 2: Brief description
+    \item Treatment 3: Brief description
+    \item Treatment 4: Brief description
+\end{itemize}
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=\textwidth]{figures/figure1.png}
+    \caption{Caption for your figure.}
+    \label{fig:experimental-layout}
+\end{figure}
+
+\subsection{Data Acquisition and Sensor Setup}
+
+Description of data acquisition and sensor setup goes here.
+
+\subsubsection{Sensor Installation Protocols}
+
+Sensor installation details go here.
+
+\subsubsection{Data Logger Configuration and Hardware Integration}
+
+Data logger configuration details go here.
+
+\begin{table}[ht]
+  \centering
+  \caption{Description of Sensor Mapping}
+  \label{tab:sensor-mapping}
+  \begin{tabular}{|l|l|l|}
+  \hline
+  \textbf{Attribute} & \textbf{Sensor 1} & \textbf{Sensor 2} \\ \hline
+  Example 1 & Value & Value \\ \hline
+  Example 2 & Value & Value \\ \hline
+  \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=\textwidth]{figures/figure2.png}
+    \caption{Caption for your figure.}
+    \label{fig:sensor-mapping}
+\end{figure}
+
+\subsection{Computation of Water Stress Indices and Crop Evapotranspiration}
+
+Description of computation methods goes here.
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=\textwidth]{figures/figure3.png}
+    \caption{Caption for your figure.}
+    \label{fig:cloud-functions}
+\end{figure}
+
+\subsubsection{Index One}
+
+Description of first index calculation.
+
+\begin{equation}
+\text{Index} = \frac{(X - Y) - (X - Y)_L}{(X - Y)_U - (X - Y)_L}
+\label{eq:index1}
+\end{equation}
+
+Where $(X - Y)_L$ and $(X - Y)_U$ are the lower and upper bounds.
+
+\subsubsection{Index Two}
+
+Description of second index calculation.
+
+\begin{equation}
+\text{SWSI} = \frac{A - B}{C - D}
+\label{eq:index2}
+\end{equation}
+
+\subsubsection{Reference Calculation}
+
+Description of reference calculation.
+
+\begin{equation}
+\text{Reference} = \frac{0.408\Delta (R_n - G) + \gamma \frac{900}{T + 273} u_2 \text{VPD}}{\Delta + \gamma (1 + 0.34 u_2)}
+\label{eq:reference}
+\end{equation}
+
+\subsection{Data Communication and Processing Infrastructure}
+
+Description of data communication and processing infrastructure goes here.
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=\textwidth]{figures/figure4.png}
+    \caption{Caption for your figure.}
+    \label{fig:data-flow}
+\end{figure}
+
+\subsection{Scheduling Methods}
+
+Description of scheduling methods goes here.
+
+\subsubsection{Method One}
+
+Description of first method.
+
+\begin{equation}
+\text{Decision} = \begin{cases}
+\text{Option A} & \text{if Condition A} \\
+\text{Option B} & \text{if Condition B} \\
+\text{No decision} & \text{if Condition C}
+\end{cases}
+\label{eq:decision_rule1}
+\end{equation}
+
+\subsubsection{Method Two}
+
+Description of second method.
+
+\begin{equation}
+\text{Decision} = \begin{cases}
+\text{Option A} & \text{if Condition A} \\
+\text{Option B} & \text{if Condition B} \\
+\text{No decision} & \text{if Condition C}
+\end{cases}
+\label{eq:decision_rule2}
+\end{equation}
+
+\subsubsection{Method Three}
+
+Description of third method.
+
+\begin{equation}
+\text{Value} = A \times B + C \times D
+\label{eq:composite}
+\end{equation}
+
+\subsubsection{Fuzzy Logic-Based Method}
+
+Description of fuzzy logic method.
+
+\begin{figure}[h!]
+\centering
+% \includegraphics[width=0.9\textwidth]{figures/figure5.png}
+\caption{Caption for your figure.}
+\label{fig:membership}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+% \includegraphics[width=0.9\textwidth]{figures/figure6.png}
+\caption{Caption for your figure.}
+\label{fig:rule_strength}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+% \includegraphics[width=0.9\textwidth]{figures/figure7.png}
+\caption{Caption for your figure.}
+\label{fig:defuzzification}
+\end{figure}
+
+\subsection{Data Quality, Reliability, and Security}
+
+Description of data quality, reliability, and security measures goes here.
+
+\begin{itemize}
+    \item \textbf{Item 1:} Description
+    \item \textbf{Item 2:} Description
+    \item \textbf{Item 3:} Description
+    \item \textbf{Item 4:} Description
+\end{itemize}
+
+\section{Results and Discussion}
+
+\subsection{Main Dashboard}
+
+Description of main dashboard goes here.
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=\textwidth]{figures/figure8.png}
+    \caption{Caption for your figure.}
+    \label{fig:dashboard}
+\end{figure}
+
+\subsection{Visualization and Recommendations}
+
+Description of visualizations and recommendations goes here.
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=\textwidth]{figures/figure9.png}
+    \caption{Caption for your figure.}
+    \label{fig:dashboard-sample}
+\end{figure}
+
+\subsection{System Performance and Data Reliability}
+
+\subsubsection{Packet Delivery Analysis}
+
+Description of packet delivery analysis goes here.
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=\textwidth]{figures/figure10.png}
+    \caption{Caption for your figure.}
+    \label{fig:packet-analysis}
+\end{figure}
+
+\subsubsection{System Power Consumption}
+
+Description of system power consumption goes here.
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=\textwidth]{figures/figure11.png}
+    \caption{Caption for your figure.}
+    \label{fig:battery-voltage}
+\end{figure}
+
+\subsection{Challenges and Future Directions}
+
+\subsubsection{Challenges}
+
+Description of challenges goes here.
+
+\subsubsection{Future Directions and Research}
+
+Description of future directions and research goes here.
+
+\subsubsection{Adoption Considerations}
+
+Description of adoption considerations goes here.
+
+\section{Conclusion}
+
+Conclusion text goes here.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             References & Appendices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\printbibliography[heading=bibintoc, title={References}]
+\clearpage
+\appendix
+\include{appendices}
+
+\end{document}
