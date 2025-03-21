@@ -1,0 +1,293 @@
+\documentclass[12pt]{article}
+
+% Encoding and language
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+% Page layout
+\usepackage[margin=1in]{geometry}
+
+% Math and symbols
+\usepackage{amsmath,amssymb,amsfonts}
+
+% For quotes & punctuation with biblatex + babel
+\usepackage{csquotes}
+
+\usepackage[
+  backend=biber,
+  style=numeric,
+  sorting=none,
+  giveninits=true,
+  doi=true,
+  url=false,
+  isbn=false,
+  eprint=false,
+  maxbibnames=10,
+  minbibnames=10,
+  maxcitenames=2,
+  uniquename=false
+]{biblatex}
+\addbibresource{references.bib}
+
+% Author initials first (Z. Gu)
+\DeclareNameAlias{author}{given-family}
+
+% No "In:" prefix
+\renewbibmacro{in:}{}
+
+% Title without quotation marks or italics
+\DeclareFieldFormat[article,inproceedings,incollection]{title}{#1}
+
+% Pages format without prefix
+\DeclareFieldFormat[article]{pages}{#1}
+
+% DOI without prefix
+\DeclareFieldFormat{doi}{#1}
+
+% Hyperlinks
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks  = true,
+  linkcolor   = blue,
+  citecolor   = blue,
+  urlcolor    = magenta
+}
+\usepackage{url}
+
+% Graphics, tables, and floats
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xltabular}
+\usepackage{float}
+
+% For referencing figures/tables with bold labels
+\usepackage[labelfont=bf]{caption}
+
+% Optional line spacing
+\usepackage{setspace}
+%\onehalfspacing
+
+% -------------------------------
+% Code Listings Configuration
+% -------------------------------
+\usepackage{listings}
+\usepackage{xcolor} % for custom colors
+
+% Define a custom style for Python code
+\lstdefinestyle{myCustomPython}{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{green!50!black}\itshape,
+  stringstyle=\color{red},
+  backgroundcolor=\color{gray!10},
+  frame=single,
+  rulecolor=\color{gray},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  breaklines=true,
+  breakatwhitespace=true,
+  showstringspaces=false,
+  captionpos=b,
+  tabsize=4,
+  columns=fullflexible
+}
+
+% Set the default style to your custom style
+\lstset{style=myCustomPython}
+% -------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%              BEGIN DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\title{Integrating Multi-Index Approaches and Real-Time Data for Enhanced Irrigation Scheduling: A Comprehensive Review and Case Study}
+\author{%
+  Bryan Nsoh\textsuperscript{1,2},
+  Abia Katimbo\textsuperscript{1,2,*},
+  Kendall C. DeJonge\textsuperscript{4},
+  Daran R. Rudnick\textsuperscript{5},
+  Weizhen Liang\textsuperscript{6},
+  Derek M. Heeren\textsuperscript{1},
+  Yeyin Shi\textsuperscript{1},
+  Hongzhi Guo\textsuperscript{7},
+  Yufeng Ge\textsuperscript{1},
+  Xin Qiao\textsuperscript{6},
+  Birru Girma\textsuperscript{8},
+  Hope Njuki Nakabuye\textsuperscript{9},
+  Issa Kabenge\textsuperscript{10},
+  Joshua Wanyama\textsuperscript{10}
+}
+
+\date{\vspace{-1em}} % optional
+\maketitle
+
+\noindent
+\textsuperscript{1} Department of Biological Systems Engineering, University of Nebraska–Lincoln, Lincoln, NE 68583, USA\\
+\textsuperscript{2} West Central Research, Extension, and Education Center, University of Nebraska–Lincoln, North Platte, NE 69101, USA\\
+\textsuperscript{3} Department of Electrical and Computer Engineering, University of Nebraska–Lincoln, Lincoln, NE 68588, USA\\
+\textsuperscript{4} Water Management and Systems Research Unit, USDA Agricultural Research Service, Fort Collins, CO 80526, USA\\
+\textsuperscript{5} Carl and Melinda Helwig Department of Biological and Agricultural Engineering, Kansas State University, Manhattan, KS 66506, USA\\
+\textsuperscript{6} Panhandle Research, Extension, and Education Center, University of Nebraska–Lincoln, Scottsbluff, NE 69361, USA\\
+\textsuperscript{7} School of Computing, University of Nebraska–Lincoln, Lincoln, NE 68588, USA\\
+\textsuperscript{8} Department of Agronomy and Horticulture, University of Nebraska–Lincoln, Lincoln, NE 68583, USA\\
+\textsuperscript{9} Texas A\&M AgriLife Research and Extension Center, Texas A\&M University, 1102 East Drew Street, Lubbock, TX 79403, USA\\
+\textsuperscript{10} Department of Agricultural and Biosystems Engineering, Makerere University, Kampala P.O. Box 7062, Uganda
+
+\vspace{1em}
+\noindent
+\textsuperscript{*}Corresponding author: \href{mailto:abia.katimbo@unl.edu}{abia.katimbo@unl.edu} (A. Katimbo)
+
+
+\vspace{1em}
+\begin{abstract}
+Your abstract text goes here.
+\end{abstract}
+
+ 
+
+\section{Introduction}
+
+\subsection{Context and Significance}
+In recent decades, mounting pressures from water scarcity, population growth, and the push for sustainable agriculture have prompted a transformative shift in irrigation management. Traditional scheduling—largely reliant on standard evapotranspiration equations, periodic field checks, and inexact heuristics—often leads to over- or under-irrigation, causing inefficiencies and yield fluctuations. Meanwhile, research has increasingly shown that a more precise alignment of water application with actual crop water needs can significantly enhance yield stability, water-use efficiency, and overall sustainability. 
+
+Furthermore, a continuous evolution of sensors, computational methods, and real-time data technologies has enabled researchers to devise sophisticated irrigation scheduling solutions. From single-index methods using canopy temperature or soil moisture alone, to advanced multi-index frameworks incorporating multiple signals in real time, the literature abounds with novel tools for balancing water savings and crop performance. This paper explores these techniques in a structured narrative, presenting a rich cross-section of the field and building a rationale for the multi-indicator integration approach tested in our own empirical case study.
+
+\subsection{Purpose and Chapter Organization}
+The aim of this paper is threefold: first, to present a \textbf{comprehensive literature review} that captures the progression from single-index to multi-index methods, highlighting both classical and contemporary milestones in the field. Second, to \textbf{examine} how big data, real-time monitoring, and advanced computational algorithms have further revolutionized irrigation scheduling. Third, to \textbf{demonstrate} an empirical case study that leverages these findings, illustrating how a carefully designed multi-indicator system can outperform single-index or conventional approaches in practical field conditions. The remaining sections unfold as follows:
+
+\begin{itemize}
+\item \textbf{Single-Index Approaches}: A chronological view of established and modern indices, along with major findings on their effectiveness and limitations.
+\item \textbf{Multi-Index Integration}: An exploration of how combining plant and soil signals (among others) can offer more holistic water-stress detection.
+\item \textbf{Big Data and Real-Time Monitoring}: The role of large-scale sensor networks, continuous data streaming, and automated decision triggers in modern systems.
+\item \textbf{Advanced Computational and Machine Learning Methods}: Insights into fuzzy logic, neural networks, ensemble models, and decision-support systems that unify multi-indicator data in sophisticated ways.
+\item \textbf{Synthesis and Emergent Gaps}: An integrated perspective gleaned from the literature, with a final identification of critical open questions.
+\item \textbf{Case Study}: Presentation of our own multi-indicator field trial, showcasing real-time integration and yield/water-productivity results.
+\end{itemize}
+
+This format ensures that readers fully appreciate the theoretical and empirical underpinnings before encountering a concrete, field-tested illustration of the frameworks in action.
+
+
+
+\section{Single-Index Approaches}
+
+\subsection{Origins and Canonical Methods}
+The earliest studies establishing single indicators of plant water stress usually focused on direct measurements—such as leaf water potential, midday stem water potential, or canopy temperature—as a stand-in for overall crop hydration. Foundational papers from the 1980s and 1990s frequently cited the Crop Water Stress Index (CWSI) as a revolutionary step, demonstrating how infrared canopy temperature readings could be correlated with plant transpiration rates. Likewise, Soil Water Stress Index (SWSI) evolved around the same era, offering a soil-centric approach to irrigation timing based on moisture thresholds.
+
+A large body of early research demonstrates that single indices significantly improved on guesswork-based scheduling, often saving water without affecting yields. Studies on crops like corn, wheat, and cotton reported that simply applying irrigation when CWSI or SWSI exceeded a critical threshold was sufficient to stabilize or even improve yield metrics. \textbf{Table 1} (planned for Section 2.6) can compile a broad, cross-crop comparison of how single-index approaches performed, detailing key findings on yield changes and water savings. Through such references, the narrative underscores that single-index scheduling forms the bedrock for subsequent multi-index systems.
+
+\subsection{Strengths and Limitations}
+Despite their straightforward implementation, single indices inherently have blind spots. For instance, a canopy-temperature-based metric like CWSI may fail to detect early subsoil dryness if the crop’s canopy temperature lags behind actual root-zone depletion. Conversely, a soil-based index like SWSI may miss changes in atmospheric demand or plant response to microclimatic conditions. Numerous authors have highlighted how these single metrics, while foundational, cannot capture the entire complexity of plant-water-soil dynamics.
+
+This tension between simplicity and completeness sets the stage for the next evolutionary step: multi-index integration. Many studies from the past decade, for instance, began acknowledging that short-term anomalies—like sudden rises in evaporative demand—were not always detected by an isolated indicator. Thus, single-index methods, though historically important, paved the way for more holistic approaches.
+
+
+
+\section{Multi-Index Integration}
+
+\subsection{Rationale for Combining Multiple Signals}
+Driven by the need to capture both plant-based and soil-based signals (among others), researchers began exploring multi-index strategies. Some combined canopy temperature data with volumetric soil moisture. Others fused NDVI (a vegetation index from remote sensing) with thermal imaging to track morphological changes alongside thermal stress. Across these studies, a key unifying principle emerged: a single index can highlight one dimension of water stress, but multiple indicators together provide a deeper, more nuanced picture of actual crop needs.
+
+In many field trials, \textbf{CWSI + SWSI} synergy became a benchmark case study. Articles reporting these dual-index systems often concluded that irrigation events triggered by intersecting thresholds—like a moderate CWSI but high SWSI—led to a better balance between water application and crop uptake. A portion of this literature also discusses how these signals can sometimes conflict (e.g., moist soil conditions but heat-stressed canopies), illustrating the importance of weighting or adjudicating among indices.
+
+\subsection{Methods of Combining Indices}
+Researchers tried numerous strategies to synthesize multiple indices, each with unique benefits and pitfalls. Some early works applied simple averaging: if CWSI > 0.5 or SWSI < 0.3, for example, irrigation might be triggered. Later studies introduced more nuanced weighting systems, calibrating each index’s importance according to local conditions, crop stage, or historical performance. Meanwhile, certain authors turned to advanced decision-support systems or fuzzy logic, enabling more dynamic interplay among the indices.
+
+\textbf{Figure 1} might show an example conceptual diagram of multi-index integration, contrasting straightforward threshold-based approaches with more intricate weighted or fuzzy schemes. In parallel, \textbf{Table 2} (discussed in Section 5) can itemize different multi-index integration techniques reported across major studies, specifying the sensor technologies used, the cost/complexity of each system, and reported yield or water-saving outcomes.
+
+
+
+\section{Big Data and Real-Time Monitoring}
+
+\subsection{Rise of IoT and High-Frequency Sensing}
+The next major leap—identified by numerous authors—was harnessing continuous data collection from large-scale sensor deployments, known colloquially as big-data or IoT-driven solutions. Here, multi-index systems rely not just on multiple signals, but on \textbf{high-frequency} or \textbf{real-time} streaming of those signals. Remote sensing satellites may track NDVI daily or weekly, while ground-based sensors provide minutely soil moisture readings. This flood of data, if properly harnessed, promises dynamic irrigation scheduling that reacts to shifts in weather, crop growth, and field heterogeneity nearly in real time.
+
+Key works highlight that real-time data can reduce lags between stress detection and water application. Studies describing entire “smart irrigation” frameworks have shown how thousands of sensor nodes, combined with remote servers, can automatically trigger irrigation events, often leading to further water savings while stabilizing yields. However, authors repeatedly stress the infrastructural hurdles—ranging from data transmission reliability to sensor calibration drift over time.
+
+\subsection{Data Management and Analytics Infrastructure}
+Alongside these sensors, advanced data architectures (cloud computing, edge processing) emerged to handle the rapid ingestion and analysis. Discussion across multiple papers underscores how data volume alone does not guarantee better scheduling; the system’s ability to process, filter, and interpret that data is pivotal. Some fields used on-site edge computing devices to preprocess signals, optimizing bandwidth. Others streamed all raw data to a cloud environment for more comprehensive, albeit potentially delayed, analysis. Where real-time solutions are desired, latency constraints shape system design.
+
+Taken together, the big-data angle dovetails with multi-index approaches: not only are multiple stress indicators combined, but they’re also updated continuously, ensuring that short-lived stress events or abrupt environmental changes trigger rapid irrigation responses. \textbf{Figure 2} might depict a schematic of a typical big-data pipeline for irrigation scheduling, from sensor node to cloud analytics to irrigation actuation.
+
+
+
+\section{Advanced Computational and Machine Learning Methods}
+
+\subsection{Evolution Beyond Simple Thresholds}
+Even with multi-index data streaming in real time, many early systems used rigid threshold logic (e.g., “If CWSI > 0.4 and SWSI < 0.3, irrigate.”). However, more recent studies introduced \textbf{machine learning} (ML) and other advanced computational approaches to discover hidden relationships among indices. Neural networks, fuzzy systems, decision trees, and even reinforcement learning have been applied to decipher subtle interactions among plant, soil, and atmospheric signals.
+
+Papers featuring fuzzy logic frameworks frequently highlight how partial memberships can dynamically shift an irrigation recommendation between “not necessary” and “strongly recommended.” Meanwhile, neural networks trained on historical yield and climate data attempt to generalize across seasons, adjusting the weighting of each index automatically. Multiple authors claim that this approach consistently outperforms simpler multi-index threshold rules, though complexity increases dramatically, and data requirements skyrocket.
+
+\subsection{Empirical Validations}
+Studies applying machine learning typically highlight key outcomes such as yield improvements, water savings, and reduced risk of under-irrigation in stress-prone periods. Importantly, these methods often require robust calibration or training phases, emphasizing repeated field data from diverse conditions. \textbf{Table 3} might offer a panoramic view of major ML-driven irrigation scheduling systems, listing the model type (fuzzy logic, random forest, neural network, etc.), the indices or data inputs used (canopy temperature, soil moisture, NDVI, etc.), and the final reported performance metrics (percentage of water saved compared to a baseline, yield difference, etc.).
+
+This section underscores how advanced computational strategies represent the vanguard of irrigation scheduling research—pushing the envelope of automation and adaptability, yet also demanding skilled deployment and thorough validation.
+
+
+
+\section{Synthesis and Emergent Gaps}
+
+\subsection{Integrating Insights Across Sections}
+Having walked through the single-index fundamentals, multi-index expansions, real-time big-data capabilities, and cutting-edge ML-driven control, this section distills the overarching lessons. Contrasting single vs. multi-indicator approaches reveals that combining plant and soil signals frequently yields better scheduling outcomes. Pairing big data with real-time analytics further amplifies those benefits, but introduces infrastructure, cost, and complexity challenges. Machine learning often demonstrates superior adaptive potential, yet it can be data-hungry and requires specialized knowledge to calibrate effectively.
+
+\subsection{Tables and Figures Summarizing Findings}
+\begin{itemize}
+\item \textbf{Table 4 (Global Synthesis):} A single table capturing each major approach (single-index threshold, multi-index weighting, real-time big data, ML-based) across studied crops, typical water savings, yield changes, and complexity levels.
+\item \textbf{Figure 3 (Heatmap of Approaches):} A heatmap mapping the frequency of certain combinations (e.g., multi-index + real-time + ML) in the literature. This visually pinpoints seldom-explored intersections, guiding us toward research that remains underrepresented.
+\end{itemize}
+
+\subsection{Outstanding Questions}
+Despite considerable progress, major questions persist—chief among them, how best to balance modeling complexity with field-level practicality? How can small-scale farmers adopt these multi-index or ML-based solutions without prohibitive infrastructure costs? What steps remain to refine or standardize performance metrics (like yield vs. water productivity) to enable more direct cross-study comparisons? The final part of this section underscores that these open questions justify the continuous development of case studies that systematically measure the gains from integrated approaches.
+
+
+
+\section{Case Study: Integrated Multi-Indicator Irrigation Scheduling}
+
+\subsection{Context and Objectives of the Field Study}
+This section now transitions from the aggregated knowledge to your \textbf{empirical demonstration}. Reintroduce the fundamental details of your prior research: the site specifics, the crop types (corn and soybean, for instance), the sensors used (thermal cameras, soil moisture probes), and the baseline scheduling approach. Emphasize how the lessons from Sections 2–6 shaped your choice to integrate multiple indices. For instance, highlight the mismatch you found in the literature between canopy stress and soil dryness, leading you to trial both signals in synergy.
+
+\subsection{Methods and Treatments}
+Reorganize your original “Materials and Methods” sections here. Summarize the four main treatments from your earlier paper (IoT-Fuzzy, multi-index CWSI+SWSI, single-index, and a conventional ET-based approach). Make a direct link to prior literature—e.g., referencing how your IoT-Fuzzy approach connects to the big-data real-time (Section 4) and advanced computational logic (Section 5) discussions. Present any modifications or expansions, such as the metrics used (IWP or yield differences) to compare with prior multi-index validations.
+
+\subsection{Results and Discussion}
+Demonstrate how your case study replicates or contrasts the findings from the literature. For example, show that integrated approaches (CWSI+SWSI) reduce irrigation by a specified percentage without harming yields, echoing multi-index synergy claims. Report that your IoT-Fuzzy system effectively responds to short-term dryness, aligning with the real-time big-data ethos. Use \textbf{Figure 4} to show side-by-side irrigation events across treatments, and \textbf{Table 5} to present yield and water-use-efficiency data. Within each paragraph, cross-reference the relevant prior research from Sections 2–6, validating or expanding upon established trends.
+
+
+
+\section{Conclusions}
+
+\subsection{Review Summary}
+Concisely restate how the multi-tiered approach—single-index, multi-index, big-data real-time, and advanced ML—encapsulates the range of irrigation scheduling solutions identified in the literature. Emphasize that bridging these approaches yields a more robust, dynamic, and often yield-protective system.
+
+\subsection{Key Lessons from the Case Study}
+Discuss how your field results confirm that integrated methods capture plant and soil stress better than single-index solutions. Highlight that real-time data and computational techniques align well with the evolving direction of the research landscape. Emphasize cost and implementation considerations as part of the bigger conversation on scaling these solutions.
+
+\subsection{Future Directions}
+Propose that the next phase involves combining multiple plant and soil indices, real-time data streaming, and advanced analytics (potentially with ML ensembles) while exploring different crops and climates. Underscore the necessity for deeper, multi-season validations and expansions to economic analysis, especially to weigh sensor/control investments against water savings.
+
+
+
+\section*{Final Notes}
+\begin{enumerate}
+\item \textbf{No mention} is made of how the references were initially gathered, only how they are synthesized into a cohesive narrative.
+\item \textbf{Extensive tables and figures} are placed strategically:
+   \begin{itemize}
+   \item \textbf{Tables}: Summaries of single-index vs. multi-index outcomes, big-data frameworks, ML-based solutions, plus a global integrated table.
+   \item \textbf{Figures}: Conceptual diagrams of multi-index fusion, real-time data flows, and comparative result charts from your own case study.
+   \end{itemize}
+\item The \textbf{case study} is seamlessly inserted as a culminating example, showing how the insights gleaned from the literature can be applied practically, and simultaneously providing new data that feed back into the discourse, thus closing the loop between research and implementation.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             References & Appendices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\printbibliography[heading=bibintoc, title={References}]
+\clearpage
+\appendix
+\include{appendices}
+
+\end{document}
