@@ -94,35 +94,57 @@
   tabsize=4,
   columns=fullflexible
 }
-
-% Set the default style to your custom style
 \lstset{style=myCustomPython}
 % -------------------------------
+
+% For rotating (landscape) tables
+\usepackage{rotating}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %              BEGIN DOCUMENT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-\title{Your Paper Title Here}
+\title{Integrating Multi-Index Approaches and Real-Time Data for Enhanced Irrigation Scheduling: A Comprehensive Review and Case Study}
 \author{%
-  Author Name\textsuperscript{1,2},
-  Second Author\textsuperscript{1,2}\thanks{\textit{Corresponding author:} \texttt{email@domain.com}}~,
-  et al.
+Bryan Nsoh\textsuperscript{1,2},
+Abia Katimbo\textsuperscript{1,3,*},
+Kendall C. DeJonge\textsuperscript{4},
+Daran R. Rudnick\textsuperscript{5},
+Weizhen Liang\textsuperscript{6},
+Derek M. Heeren\textsuperscript{1},
+Yeyin Shi\textsuperscript{1},
+Hongzhi Guo\textsuperscript{7},
+Yufeng Ge\textsuperscript{1},
+Xin Qiao\textsuperscript{6},
+Birru Girma\textsuperscript{8},
+Hope Njuki Nakabuye\textsuperscript{9},
+Issa Kabenge\textsuperscript{10},
+Joshua Wanyama\textsuperscript{10}
 }
 \date{\vspace{-1em}} % optional
 \maketitle
 
 \noindent
-\textsuperscript{1}Department Name, University Name, City, State, Country
-
-\noindent
-\textsuperscript{2}Center Name, University Name, City, State, Country
+\textsuperscript{1}Department of Biological Systems Engineering, University of Nebraska--Lincoln, Lincoln, NE 68583, USA\\
+\textsuperscript{2}West Central Research, Extension, and Education Center, University of Nebraska--Lincoln, North Platte, NE 69101, USA\\
+\textsuperscript{3}Department of Electrical and Computer Engineering, University of Nebraska--Lincoln, Lincoln, NE 68588, USA\\
+\textsuperscript{4}Water Management and Systems Research Unit, USDA Agricultural Research Service, Fort Collins, CO 80526, USA\\
+\textsuperscript{5}Carl and Melinda Helwig Department of Biological and Agricultural Engineering, Kansas State University, Manhattan, KS 66506, USA\\
+\textsuperscript{6}Panhandle Research, Extension, and Education Center, University of Nebraska--Lincoln, Scottsbluff, NE 69361, USA\\
+\textsuperscript{7}School of Computing, University of Nebraska--Lincoln, Lincoln, NE 68588, USA\\
+\textsuperscript{8}Department of Agronomy and Horticulture, University of Nebraska--Lincoln, Lincoln, NE 68583, USA\\
+\textsuperscript{9}Texas A\&M AgriLife Research and Extension Center, Texas A\&M University, 1102 East Drew Street, Lubbock, TX 79403, USA\\
+\textsuperscript{10}Department of Agricultural and Biosystems Engineering, Makerere University, Kampala P.O. Box 7062, Uganda
 
 \vspace{1em}
 \begin{abstract}
 Your abstract text goes here.
 \end{abstract}
+
+\vspace{1em}
+\noindent
+\textsuperscript{*}Corresponding author: \href{mailto:abia.katimbo@unl.edu}{abia.katimbo@unl.edu} (A. Katimbo)
 
 \section{Introduction}
 
@@ -200,8 +222,6 @@ Description of first index calculation.
 \text{Index} = \frac{(X - Y) - (X - Y)_L}{(X - Y)_U - (X - Y)_L}
 \label{eq:index1}
 \end{equation}
-
-Where $(X - Y)_L$ and $(X - Y)_U$ are the lower and upper bounds.
 
 \subsubsection{Index Two}
 
@@ -380,6 +400,52 @@ Conclusion text goes here.
 \printbibliography[heading=bibintoc, title={References}]
 \clearpage
 \appendix
-\include{appendices}
+
+\section{Supplemental Information}
+
+% -----------------------------------------------------------------------
+% Example of a portrait-oriented table
+% -----------------------------------------------------------------------
+\begin{table}[htbp]
+    \centering
+    \caption{Portrait Orientation Table Example}
+    \begin{tabular}{lcc}
+    \toprule
+    \textbf{Parameter} & \textbf{Value 1} & \textbf{Value 2} \\
+    \midrule
+    Parameter A & 12.4 & 13.6 \\
+    Parameter B & 7.3 & 8.1 \\
+    Parameter C & 5.8 & 6.2 \\
+    \bottomrule
+    \end{tabular}
+    \label{tab:portrait-example}
+\end{table}
+
+% -----------------------------------------------------------------------
+% Example of a landscape-oriented table using sidewaystable
+% -----------------------------------------------------------------------
+\begin{sidewaystable}[htbp]
+    \centering
+    \caption{Landscape Orientation Table Example}
+    \begin{tabular}{lcccccc}
+    \toprule
+    \textbf{Parameter} & \textbf{Jan} & \textbf{Feb} & \textbf{Mar} & \textbf{Apr} & \textbf{May} & \textbf{Jun} \\
+    \midrule
+    Temperature (°C) & 4.2 & 5.6 & 10.1 & 15.5 & 20.2 & 24.1 \\
+    Rainfall (mm)    & 52  & 41  & 67   & 72   & 81   & 95   \\
+    Evaporation (mm) & 25  & 30  & 45   & 60   & 70   & 85   \\
+    \bottomrule
+    \end{tabular}
+    \label{tab:landscape-example}
+\end{sidewaystable}
+
+\clearpage
+
+\section*{Summary of Best Practices}
+\begin{itemize}
+    \item \textbf{Author Formatting:} Let author names wrap naturally in the \texttt{\textbackslash author} field so LaTeX can manage line breaks.
+    \item \textbf{Tables:} Use the regular \texttt{table} environment for portrait tables and \texttt{sidewaystable} (from the \texttt{rotating} package) for wide or landscape-oriented tables.
+    \item \textbf{Appendices:} Consider placing large supplemental tables and figures in the appendix for clarity and organization.
+\end{itemize}
 
 \end{document}
